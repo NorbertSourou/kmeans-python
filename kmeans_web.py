@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
 
 # Définir la distance de Manhattan
 def manhattan_distance(p1, p2):
@@ -63,7 +62,10 @@ def main():
     st.set_option('deprecation.showfileUploaderEncoding', False)
     file = st.file_uploader("Télécharger un fichier CSV", type=["csv"])
     if file is not None:
-        data = pd.read_csv(file)
+        data = pd.read_csv(file, sep=';')  # spécifier le séparateur ';'
+
+        # Convertir les valeurs de la deuxième colonne en type float64
+        data['Dette'] = data['Dette'].astype('float64')
 
         # Sélectionner le nombre de clusters
         k = st.slider("Sélectionner le nombre de clusters", min_value=2, max_value=10)
