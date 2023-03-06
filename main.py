@@ -1,3 +1,6 @@
+# dépot github : https://github.com/NorbertSourou/kmeans-python
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,9 +9,13 @@ x = [1,1,2,2,3,3,4,4,5,5,6,7]
 y = [7,6,6,5,6,4,1,2,1,2,1,3]
 myDic= {"ROI": x, "Dette": y}
 
-# data = pd.read_csv("data.csv")
+# Si vous voulez uploader un fichier décommenter les deux ligne suivant  et commanter la troisième
+
+# data = pd.read_csv("chemin_du_fichier", sep=';')
+# data['Dette'] = data['Dette'].astype('float64')
+
 data = pd.DataFrame(data= myDic)
-print(myDic)
+print(data)
 
 
 # Sélections de k point : les centroides

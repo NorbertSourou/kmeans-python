@@ -1,3 +1,5 @@
+# dépot github : https://github.com/NorbertSourou/kmeans-python
+
 import pandas as pd
 import numpy as np
 import streamlit as st
@@ -45,27 +47,51 @@ def kmeans_clustering(data, k):
 # Définir la fonction pour afficher les résultats du clustering
 def plot_clusters(data, clusters, centers):
     # Afficher la représentation graphique de l'ensemble de points
-    plt.scatter(data.iloc[:, 0], data.iloc[:, 1], c=clusters)
+
+    fig, ax = plt.subplots()
+
+    ax.scatter(data.iloc[:, 0], data.iloc[:, 1], c=clusters)
 
     # Afficher les centres de cluster
-    plt.scatter(centers[:, 0], centers[:, 1], marker='*', s=300, c='red')
+    ax.scatter(centers[:, 0], centers[:, 1], marker='*', s=300, c='red')
 
     # Afficher le graphique
-    st.pyplot()
+    st.pyplot(fig)
 
 # Définir la fonction pour exécuter l'application Web
 def main():
     # Titre de la page Web
     st.title("KMeans Clustering")
 
-    # Télécharger le fichier de données
-    st.set_option('deprecation.showfileUploaderEncoding', False)
-    file = st.file_uploader("Télécharger un fichier CSV", type=["csv"])
-    if file is not None:
-        data = pd.read_csv(file, sep=';')  # spécifier le séparateur ';'
+    options = ['Télécharger un fichier CSV', 'Utiliser le dataframe par défaut']
 
-        # Convertir les valeurs de la deuxième colonne en type float64
-        data['Dette'] = data['Dette'].astype('float64')
+    option = st.sidebar.radio("Choisir une option", options)
+
+    # Télécharger le fichier de données ou utiliser le dataframe par défaut
+    if option == 'Télécharger un fichier CSV':
+        st.set_option('deprecation.showfileUploaderEncoding', False)
+        file = st.file_uploader("Télécharger un fichier CSV", type=["csv"])
+        if file is not None:
+            data = pd.read_csv(file, sep=';')
+
+            # Aficher le datasets
+            st.write("Contenu du dataset :")
+            st.write(data)
+
+            # Sélectionner le nombre de clusters
+            k = st.slider("Sélectionner le nombre de clusters", min_value=2, max_value=10)
+
+            # Effectuer le clustering
+            clusters, centers = kmeans_clustering(data, k)
+
+            # Afficher les résultats
+            plot_clusters(data, clusters, centers)
+    else:
+        data = pd.read_csv('kmean-data.csv', sep=';')
+
+        # Aficher le dataset
+        st.write("Contenu du dataset :")
+        st.write(data)
 
         # Sélectionner le nombre de clusters
         k = st.slider("Sélectionner le nombre de clusters", min_value=2, max_value=10)
@@ -75,6 +101,7 @@ def main():
 
         # Afficher les résultats
         plot_clusters(data, clusters, centers)
+
 
 if __name__ == '__main__':
     main()
