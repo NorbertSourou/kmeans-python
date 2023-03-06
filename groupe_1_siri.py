@@ -9,10 +9,9 @@ x = [1,1,2,2,3,3,4,4,5,5,6,7]
 y = [7,6,6,5,6,4,1,2,1,2,1,3]
 myDic= {"ROI": x, "Dette": y}
 
-# Si vous voulez uploader un fichier décommenter les deux ligne suivant  et commanter la troisième
+# Si vous voulez uploader un fichier décommenter la ligne suivante  et commenter la deuxième
 
 # data = pd.read_csv("chemin_du_fichier", sep=';')
-# data['Dette'] = data['Dette'].astype('float64')
 
 data = pd.DataFrame(data= myDic)
 print(data)
